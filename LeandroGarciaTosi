@@ -1,9 +1,5 @@
--- Creacion de la base
-
 DROP DATABASE IF EXISTS Proyecto_Final ;
 CREATE DATABASE Proyecto_Final ; -- CREE LA BASE
-
--- Uso de la base
 
 USE Proyecto_Final ;
 
@@ -21,8 +17,6 @@ DROP TABLE IF EXISTS Marcas;
 DROP TABLE IF EXISTS Divisiones;
 DROP TABLE IF EXISTS Calibres;
 
--- Creacion de tablas
-
 CREATE TABLE IF NOT EXISTS Localidades (
 ID_Localidad int not null,
 Localidad varchar(50),
@@ -31,16 +25,12 @@ Provincia varchar(50),
 primary key (ID_Localidad)
 );
 
-
-
 CREATE TABLE IF NOT EXISTS Vendedores (
 ID_Vendedor int not null auto_increment,
 Vendedor varchar (50),
 Supervisor varchar (50),
 primary key (ID_Vendedor)
 );
-
-
 
 CREATE TABLE IF NOT EXISTS Rutas (
 ID_Ruta int not null,
@@ -49,8 +39,6 @@ ID_Vendedor int not null,
 primary key (ID_Ruta),
 foreign key (ID_Vendedor) references Vendedores (ID_Vendedor)
 );
-
-
 
 CREATE TABLE if not exists Clientes (
 ID_Cliente int not null auto_increment ,
@@ -69,14 +57,13 @@ foreign key (ID_Localidad) references Localidades (ID_Localidad),
 foreign key (ID_Ruta) references Rutas (ID_Ruta)
 );
 
-
-
 CREATE TABLE if not exists Divisiones (
 ID_Division int not null auto_increment ,
 DescDivision varchar (50),
 UnidadDeNegocio varchar (50),
 primary key (ID_Division)
 );
+
 CREATE TABLE if not exists Marcas (
 ID_Marca int not null auto_increment ,
 DescMarca varchar (50),
@@ -85,14 +72,11 @@ primary key (ID_Marca),
 foreign key (ID_Division) references Divisiones (ID_Division)
 );
 
-
-
 CREATE TABLE if not exists Calibres (
 ID_Calibre int not null auto_increment ,
 DescCalibre varchar (50),
 primary key (ID_Calibre)
 );
-
 
 CREATE TABLE if not exists Articulos (
 ID_Articulo int not null auto_increment ,
@@ -112,8 +96,6 @@ Monto decimal (10,2),
 primary key (ID_Venta),
 foreign key (ID_Cliente) references Clientes (ID_Cliente)
 );
-
-
 
 CREATE TABLE if not exists DetalleVentas (
 ID_DetalleVenta int not null auto_increment,
