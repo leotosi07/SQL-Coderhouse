@@ -1,5 +1,7 @@
+/* CREE LA BASE */
+
 DROP DATABASE IF EXISTS Proyecto_Final ;
-CREATE DATABASE Proyecto_Final ; -- CREE LA BASE
+CREATE DATABASE Proyecto_Final ;
 
 USE Proyecto_Final ;
 
