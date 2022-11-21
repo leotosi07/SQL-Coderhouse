@@ -1,0 +1,131 @@
+/* Creo La Base */
+DROP DATABASE IF EXISTS Venta_Bebidas ;
+CREATE DATABASE Venta_Bebidas ; 
+
+USE Venta_Bebidas ;
+
+/* Drop de Tablas */
+DROP TABLE IF EXISTS DetalleVentas;
+DROP TABLE IF EXISTS Ventas;
+DROP TABLE IF EXISTS Clientes;
+DROP TABLE IF EXISTS  Rutas;
+DROP TABLE IF EXISTS Vendedores;
+DROP TABLE IF EXISTS Rutas;
+DROP TABLE IF EXISTS Clientes;
+DROP TABLE IF EXISTS localidades;
+DROP TABLE IF EXISTS Articulos;
+DROP TABLE IF EXISTS Marcas;
+DROP TABLE IF EXISTS Divisiones;
+DROP TABLE IF EXISTS Calibres;
+
+/* Creacion de Tabla Localidades (con id especifico)*/
+
+CREATE TABLE IF NOT EXISTS Localidades (
+ID_Localidad int not null,
+Localidad varchar(50),
+Departamento varchar (50),
+Provincia varchar(50),
+primary key (ID_Localidad)
+);
+
+/* Tabla de listado de vendedores, que detalla que supervisor esta a su cargo, que puede servir para posteriores analisis*/
+
+CREATE TABLE IF NOT EXISTS Vendedores (
+ID_Vendedor int not null auto_increment,
+Vendedor varchar (50),
+Supervisor varchar (50),
+primary key (ID_Vendedor)
+);
+
+/* Creacion de tabla rutas, los clientes se encuentran ruteados, de forma tal que el vendedor ciertos dias visita a x cantidad de clientes
+Un cliente es visitado por un unico vendedor, no pueden ir 2 vendedores a visitar el mismo cliente*/
+
+CREATE TABLE IF NOT EXISTS Rutas (
+ID_Ruta int not null,
+DiaVisita enum ('lunes','martes','miercoles','jueves','viernes'),
+ID_Vendedor int not null,
+primary key (ID_Ruta),
+foreign key (ID_Vendedor) references Vendedores (ID_Vendedor)
+);
+
+/*Listado de clientes, con sus detalles y la ruta que le corresponde*/
+
+CREATE TABLE if not exists Clientes (
+ID_Cliente int not null auto_increment ,
+RazonSocial varchar(50) not null ,
+Categoria enum ('RI','MT','Exento','NC') ,
+ID_Localidad int not null,
+Direccion varchar (50) not null ,
+NumDireccion int not null ,
+Telefono int not null ,
+Email varchar (50) ,
+ID_Ruta int not null ,
+Identificador enum ('CUIT','DNI') ,
+NumIdentificador int not null ,
+primary key (ID_Cliente),
+foreign key (ID_Localidad) references Localidades (ID_Localidad),
+foreign key (ID_Ruta) references Rutas (ID_Ruta)
+);
+
+/* Categoria en la cual se encuadran las marcas: Cervezas, Aguas, Gaseosas, Aguas saborizadas, entre otros*/
+CREATE TABLE if not exists Divisiones (
+ID_Division int not null auto_increment ,
+DescDivision varchar (50),
+UnidadDeNegocio varchar (50),
+primary key (ID_Division)
+);
+
+/* Creacion de la tabla marcas, donde se encuadraran cada uno de los articulos, a modo de ejemplo
+tenemos Brahma, Quilmes, Pepsi, Eco de los Andes, etc */
+
+CREATE TABLE if not exists Marcas (
+ID_Marca int not null auto_increment ,
+DescMarca varchar (50),
+ID_Division int not null,
+primary key (ID_Marca),
+foreign key (ID_Division) references Divisiones (ID_Division)
+);
+
+/* Tabla que describe la cantidad de liquido que tiene contenido el articulo, Litro, 473cc, 269cc entre otros*/
+
+CREATE TABLE if not exists Calibres (
+ID_Calibre int not null auto_increment ,
+DescCalibre varchar (50),
+primary key (ID_Calibre)
+);
+
+/*Tabla que contiene los articulos que son los productos que vamos a vender, en este caso bebidas*/
+
+CREATE TABLE if not exists Articulos (
+ID_Articulo int not null auto_increment ,
+DescArticulo varchar(50),
+ID_Marca int not null,
+ID_Calibre int not null,
+primary key (ID_Articulo),
+foreign key (ID_Marca) references Marcas (ID_Marca),
+foreign key (ID_Calibre) references Calibres (ID_Calibre)
+);
+
+/*Tabla donde se registra la venta, el cliente y el monto de la misma*/
+
+CREATE TABLE if not exists Ventas (
+ID_Venta int not null auto_increment,
+ID_Cliente int not null,
+FechaVenta timestamp,
+Monto decimal (10,2),
+primary key (ID_Venta),
+foreign key (ID_Cliente) references Clientes (ID_Cliente)
+);
+/*Detalle de la venta de la tabla anterior para saber cantidad, precio y articulo*/
+
+CREATE TABLE if not exists DetalleVentas (
+ID_DetalleVenta int not null auto_increment,
+ID_Venta int not null,
+ID_Articulo int not null,
+cantidad int not null,
+precio decimal(10,2),
+primary key (ID_DetalleVenta),
+foreign key (ID_Venta) references Ventas (ID_Venta),
+foreign key (ID_Articulo) references Articulos (ID_Articulo)
+);
+
