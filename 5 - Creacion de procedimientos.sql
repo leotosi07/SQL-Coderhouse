@@ -239,39 +239,3 @@ Begin
 		END IF;
         SELECT * FROM Vendedores ORDER BY id_Vendedor DESC LIMIT 1;
 END //
-
-/* Procedimiento para Insertar registros venta-detalleventas*/
-
-DROP PROCEDURE IF EXISTS SP_Registro_Ventas;
-DELIMITER //
-
-CREATE PROCEDURE SP_Registro_Ventas (IN p_ID_Cliente int, 
-                                     IN p_ModalidadPago enum ('Efectivo','Cta Cte'),
-									 IN p_articulo1 int,
-                                     IN p_cantidad1 int,
-									 IN p_articulo2 int,
-                                     IN p_cantidad2 int,
-									 IN p_articulo3 int,
-                                     IN p_cantidad3 int,
-									 IN p_articulo4 int,
-                                     IN p_cantidad4 int,
-									 IN p_articulo5 int,
-                                     IN p_cantidad5 int,
-									 IN p_articulo6 int,
-                                     IN p_cantidad6 int,
-                                     IN p_articulo7 int,
-                                     IN p_cantidad7 int,
-									 IN p_articulo8 int,
-                                     IN p_cantidad8 int,
-									 IN p_articulo9 int,
-                                     IN p_cantidad9 int)
-Begin
-	IF p_ID_Cliente = '' 
-	or p_ModalidadPago = ''
-	or p_articulo1 ='' 
-	or p_cantidad1 ='' 
-    THEN
-    SELECT 'DEBE COMPLETAR ID_CLIENTE, Modo de PAGO, ART 1 Y CANT 1 AL MENOS PARA PROCEDER' ERROR;
-    ELSE 
-		INSERT INTO 
-
